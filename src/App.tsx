@@ -87,9 +87,11 @@ export default function App() {
       if (error.code === 'auth/popup-blocked') {
         setAuthError("Trình duyệt đã chặn cửa sổ đăng nhập. Vui lòng cho phép hiện cửa sổ bật lên (popup) và thử lại, hoặc sử dụng phương thức chuyển hướng.");
       } else if (error.code === 'auth/cancelled-popup-request') {
-        setAuthError("Yêu cầu đăng nhập đã bị hủy (có thể do bạn đã đóng cửa sổ hoặc nhấn nhiều lần). Vui lòng thử lại hoặc sử dụng phương thức chuyển hướng.");
+        setAuthError("Yêu cầu đăng nhập đã bị hủy. Vui lòng thử lại.");
+      } else if (error.code === 'auth/unauthorized-domain') {
+        setAuthError("Tên miền này chưa được cấp phép trong Firebase Console. Vui lòng thêm tên miền của ứng dụng vào danh sách 'Authorized Domains' trong phần Authentication của Firebase.");
       } else {
-        setAuthError("Đăng nhập thất bại. Vui lòng thử lại sau.");
+        setAuthError(`Đăng nhập thất bại: ${error.message || "Vui lòng thử lại sau."}`);
       }
     } finally {
       setIsLoggingIn(false);
